@@ -12,8 +12,12 @@ matplotlib.use('Agg')  # Sử dụng backend không GUI
 # Tải biến môi trường từ .env
 load_dotenv()
 allowed_origins = os.getenv("ALLOWED_ORIGINS")
+print(f"Allowed Origins: {allowed_origins}", flush=True)
 
 app = Flask(__name__)
+
+# Load model ngay khi app khởi tạo
+load_classification_model()  # 🔥 Đảm bảo model luôn được load
 
 # Kích hoạt CORS đúng cách
 CORS(app, supports_credentials=True, origins=[allowed_origins])
@@ -30,5 +34,5 @@ def classify_image():
     return response
 
 if __name__ == '__main__':
-    load_classification_model()
+
     app.run(port=5000)
